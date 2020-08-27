@@ -1,3 +1,4 @@
+#DFS 알고리즘 참고
 def solution(n, computers):
     stack=[]
     count=1
