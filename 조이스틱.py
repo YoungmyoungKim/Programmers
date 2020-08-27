@@ -1,19 +1,32 @@
 def solution(name):
     answer=0
     iname=AlphabetToNum(name)
-    zero_count=0  #A가 연속으로 나오는 길이를 구해서 빼기 
+    base=[0]*len(iname)
+    i=0
+    while True:
+        if iname[i] != 0:
+            answer+= min(abs(iname[i]), abs(iname[i]-26))
+            iname[i]=0
 
-    for i, num in enumerate(iname):
-        answer+= min(abs(num), abs(num-26))
-        if num==0:
-            zero_count+=1
+        if iname==base:
+            break
+        else:
+            for j in range(1, len(iname)):
+                if iname[i+j] !=0:
+                    i=i+j
+                    answer+=j
+                    break
+                elif iname[i-j] !=0:
+                    i=i-j
+                    answer+=j
+                    break
 
-    return answer+len(iname)-1-zero_count
+    return answer
 
 def AlphabetToNum(name):
     ret=[]
     for ch in name:
-        ret.append(ord(ch)-65)
+        ret.append(ord(ch)-ord('A'))
     return ret
 
 

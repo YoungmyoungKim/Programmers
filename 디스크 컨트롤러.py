@@ -1,33 +1,27 @@
 import heapq
 def solution(jobs):
     temp_jobs=[]
-    n=len(jobs)
-    jobs.sort(reverse=True)
-    current_time=0
-    sum=0
-    while len(jobs)>0:
-        if len(temp_jobs)!=0 and jobs[-1][0]>current_time:
-            item=heapq.heappop(temp_jobs)
-            current_time+=item[1]
-            sum+=(current_time-item[0])
-        elif len(temp_jobs)==0 and [-1][0]>current_time:
-            item=jobs.pop()
-            current_time+=(current_time-item[0]+item[1])
-            sum+=(current_time-item[0])
+    heapq.heapify(jobs)
+    num_jobs= len(jobs)
+    job=heapq.heappop(jobs)
+    current_time=job[0]+job[1]
+
+    sum=current_time-job[0]
+    for i in range(num_jobs-1):
+        while len(jobs)!=0 and jobs[0][0]<current_time:
+            job=heapq.heappop(jobs)
+            heapq.heappush(temp_jobs, (job[1],job[0]))
+
+        if len(temp_jobs)==0:
+            job=heapq.heappop(jobs)
+            current_time+=(job[0]-current_time+job[1])
+            sum+=job[1]
         else:
-            item=jobs.pop()
-            item=[item[1], item[0]]
-            heapq.heappush(temp_jobs, item)
-    while len(temp_jobs)>0:
-        item=heapq.heappop(temp_jobs)
-        current_time+=item[0]
-        sum+=(current_time-item[1])
-    return sum/n
+            job=heapq.heappop(temp_jobs)
+            current_time+=job[0]
+            sum+=(current_time-job[1])
 
-#요청이 겹치지 않는 경우 고려해야함.
-#요청이 제일 빠른 것 시작
-#실행 가능한 job들을 힙에 넣은 후 작은 것 부터 실행.
+    return sum//num_jobs   #소수점 이하 버림!!
 
-jobs=[[0,3], [1,9], [2, 6]]
-
-print(solution(jobs))
+j=[[0,3], [1,9], [2,6]]
+print(solution(j))

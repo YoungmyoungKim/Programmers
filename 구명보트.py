@@ -1,17 +1,27 @@
 def solution(people, limit):
     count=0
-    weights=sorted(people, reverse=True)
-    vote=[]
-    for i in range(len(people)):
-        if limit - weights[i] < 40:
-            count+=1
-            weights[i]=0
-            continue
-
-    if len(vote) != 0:
+    people.sort(reverse=True)
+    onBoard=[]
+    temp=[]
+    j=-1
+    for person in people[:]:
+        temp.append(person)
+        onBoard.append(person)
+        while True:
+            if len(onBoard)==len(people):
+                 break
+            if sum(temp)+people[j]<=limit:
+                temp.append(people[j])
+                onBoard.append(people[j])
+                j-=1
+            else:
+                break
         count+=1
+        temp=[]
+        if len(onBoard)==len(people):
+             break
 
-    return weights
+    return count
 
 p1, l1=[70, 50, 80, 50], 100
 p2, l2=[70, 80, 50], 100
