@@ -7,9 +7,9 @@ def solution(begin, target, words):
         if len(candidates)>0:
 
 
-    return NextWord(begin, words)
+    return NextWords(begin, words)
 #다음 바꿀 수 있는 단어 목록
-def NextWord(cur_word, words):
+def NextWords(cur_word, words):
     candidates=[]
     cur=list(cur_word)
     for word in words:
