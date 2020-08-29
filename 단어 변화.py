@@ -1,25 +1,32 @@
 def solution(begin, target, words):
     if target not in words:
         return 0
-    count=0
-    #DFS 구현 필요
-    while begin != target:
-        if len(candidates)>0:
+    stack=[(begin, 0, words)]
+    while stack:
+        temp=[]
+        while stack:
+            cur_word_info=stack.pop()
+            candidates=NextWords(cur_word_info)
+            temp.extend(candidates)
+        for x, y, z in temp:
+            if x == target:
+                return y
+        stack.extend(temp)
+    return 0
 
-
-    return NextWords(begin, words)
 #다음 바꿀 수 있는 단어 목록
-def NextWords(cur_word, words):
+def NextWords(cur_word_info):
     candidates=[]
-    cur=list(cur_word)
+    cur, cnt, words=cur_word_info[0], cur_word_info[1], cur_word_info[2]
     for word in words:
         count=0
-        for i, ch in enumerate(word):
-            if cur[i] != ch:
+        for c, w in zip(cur, word):
+            if c!=w:
                 count+=1
         if count==1:
-            candidates.append(word)
+            candidates.append((word, cnt+1, [x for x in words if x != word]))
     return candidates
+
 
 
 b1, t1, words1="hit", "cog", ['hot', 'dot', 'dog', 'lot', 'log', 'cog']
